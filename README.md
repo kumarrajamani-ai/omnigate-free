@@ -64,6 +64,5 @@ Then open **http://localhost:8080/console** — it walks you through trying it w
 ## This is the free edition
 
 Free to use, no signup, no time limit — capped at 100 concurrent connections and 2 connected
-databases. Need more? The commercial edition removes both caps; see
-**[the main OmniGate project](https://github.com/kumarrajamani-ai/Omnigate)** for details, full
-documentation, and the source code.
+databases. Need more? The commercial edition removes both caps — **contact the repo owner
+([@kumarrajamani-ai](https://github.com/kumarrajamani-ai)) to get access.**
