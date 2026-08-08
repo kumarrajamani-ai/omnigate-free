@@ -1,5 +1,5 @@
-<svg viewBox="0 0 1400 600" xmlns="http://www.w3.org/2000/svg" role="img"
-     aria-label="Five client types (Oracle, Postgres, MySQL wire-protocol apps, native OmniGate JDBC apps, and MCP agent clients) connect through a load balancer to a cluster of OmniGate nodes. Node 1 is shown in full detail: frontend listeners feed a five-stage statement pipeline (NL2SQL, Firewall, Router, Cache, QoS), which hands off to a backend executor and per-backend connection pools. Nodes 2 and 3 run the identical stack. All three nodes share cluster membership, a distributed cache, and QoS reconciliation through an embedded data grid. Each node pools independently out to six backend databases: Oracle, Postgres, MySQL/MariaDB, Snowflake, Redshift, and BigQuery, with Oracle and Postgres additionally reachable via a two-phase-commit branch. A footer strip lists cross-cutting capabilities: SQL firewall, NL2SQL, sharding, XA/2PC replication, failover, statement caching, observability, and free-versus-commercial edition caps.">
+<svg viewBox="0 0 1400 645" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Five client types (Oracle, Postgres, MySQL wire-protocol apps, native OmniGate JDBC apps, and MCP agent clients) connect through a load balancer to a cluster of OmniGate nodes. Node 1 is shown in full detail: frontend listeners feed a five-stage statement pipeline (NL2SQL, Firewall, Router, Cache, QoS), which hands off to a backend executor and per-backend connection pools. Nodes 2 and 3 run the identical stack. All three nodes share cluster membership, a distributed cache, and QoS reconciliation through an embedded data grid. Each node pools independently out to eight kinds of data sources: Oracle, Postgres, MySQL/MariaDB, Snowflake, Redshift, BigQuery, any REST API, and S3-compatible object storage (CSV/XML/Parquet files), with Oracle and Postgres additionally reachable via a two-phase-commit branch. A footer strip lists cross-cutting capabilities: SQL firewall, NL2SQL, sharding, cross-source joins spanning multiple data sources in one query, XA/2PC replication, failover, statement caching, observability, and free-versus-commercial edition caps.">
   <defs>
     <style>
       :root {
@@ -45,6 +45,8 @@
       .arrow-line-muted { stroke: var(--muted); stroke-width: 1; fill: none; marker-end: url(#arrow-muted); }
       .lb-fill { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.6; }
       .lb-text { fill: var(--accent); font: 700 12.5px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+      .join-fill { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+      .join-text { fill: var(--accent); font: 700 9.8px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
     </style>
     <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
       <path d="M0,0 L8,4 L0,8 z" fill="var(--fg)"></path>
@@ -57,7 +59,7 @@
     </marker>
   </defs>
 
-  <rect x="0" y="0" width="1400" height="600" fill="var(--bg)"></rect>
+  <rect x="0" y="0" width="1400" height="645" fill="var(--bg)"></rect>
 
   <!-- ============ CLIENTS COLUMN ============ -->
   <text x="20" y="24" class="group-label">CLIENTS / DRIVERS / MCP</text>
@@ -154,13 +156,13 @@
   <text x="716" y="144" class="arrow-label">targetBackend resolved</text>
 
   <rect x="436" y="150" width="544" height="28" rx="6" class="chip-fill"></rect>
-  <text x="708" y="169" text-anchor="middle" class="chip-text">Backend Executor — route · scatter-gather (shard SELECT) · XA 2PC</text>
+  <text x="708" y="169" text-anchor="middle" class="chip-text">Backend Executor — route · cross-source join · scatter-gather · XA 2PC</text>
 
   <path d="M710,178 L710,198" class="arrow-line"></path>
   <text x="716" y="193" class="arrow-label">borrow</text>
 
   <rect x="436" y="198" width="544" height="28" rx="6" class="chip-fill"></rect>
-  <text x="708" y="217" text-anchor="middle" class="chip-text">Connection Pools — one per backend, shared across sessions</text>
+  <text x="708" y="217" text-anchor="middle" class="chip-text">Connection Pools — one per data source, shared across sessions</text>
 
   <!-- ============ NODE 2 / NODE 3 (simplified) ============ -->
   <rect x="420" y="280" width="580" height="54" rx="10" class="box-stroke-2"></rect>
@@ -174,71 +176,84 @@
   <text x="710" y="437" text-anchor="middle" class="chip-text">Shared Cluster Data Grid</text>
   <text x="710" y="452" text-anchor="middle" class="chip-text-sm">cluster membership · distributed cache · QoS reconciliation ~1s</text>
 
-  <!-- ============ FAN-IN / FAN-OUT BUS TO BACKENDS ============ -->
+  <!-- ============ FAN-IN / FAN-OUT BUS TO DATA SOURCES ============ -->
   <path d="M980,212 L1050,212" class="arrow-line-muted"></path>
   <path d="M1000,307 L1050,307" class="arrow-line-muted"></path>
   <path d="M1000,377 L1050,377" class="arrow-line-muted"></path>
-  <line x1="1050" y1="58" x2="1050" y2="433" class="arrow-line-muted" marker-end="none"></line>
-  <text x="1055" y="240" class="arrow-label" transform="rotate(90 1055,240)">each node pools independently to every backend</text>
+  <line x1="1050" y1="54" x2="1050" y2="446" class="arrow-line-muted" marker-end="none"></line>
+  <text x="1055" y="250" class="arrow-label" transform="rotate(90 1055,250)">every node reaches every data source — and can join across them in one query</text>
 
-  <path d="M1050,58 L1120,58" class="arrow-line-muted"></path>
-  <path d="M1050,133 L1120,133" class="arrow-line-muted"></path>
-  <path d="M1050,208 L1120,208" class="arrow-line-muted"></path>
-  <path d="M1050,283 L1120,283" class="arrow-line-muted"></path>
-  <path d="M1050,358 L1120,358" class="arrow-line-muted"></path>
-  <path d="M1050,433 L1120,433" class="arrow-line-muted"></path>
+  <path d="M1050,54 L1120,54" class="arrow-line-muted"></path>
+  <path d="M1050,110 L1120,110" class="arrow-line-muted"></path>
+  <path d="M1050,166 L1120,166" class="arrow-line-muted"></path>
+  <path d="M1050,222 L1120,222" class="arrow-line-muted"></path>
+  <path d="M1050,278 L1120,278" class="arrow-line-muted"></path>
+  <path d="M1050,334 L1120,334" class="arrow-line-muted"></path>
+  <path d="M1050,390 L1120,390" class="arrow-line-muted"></path>
+  <path d="M1050,446 L1120,446" class="arrow-line-muted"></path>
 
-  <!-- ============ BACKENDS / DATA SOURCES COLUMN ============ -->
+  <!-- ============ DATA SOURCES COLUMN — databases, REST APIs, object storage ============ -->
   <text x="1120" y="16" class="group-label">YOUR DATA SOURCES</text>
 
-  <rect x="1120" y="30" width="230" height="56" rx="8" class="box-stroke"></rect>
-  <text x="1130" y="52" class="title-text">Oracle</text>
-  <text x="1130" y="69" class="sub-text">pooled · optional 2PC branch</text>
+  <rect x="1120" y="30" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="50" class="title-text">Oracle</text>
+  <text x="1130" y="66" class="sub-text">pooled · optional 2PC branch</text>
 
-  <rect x="1120" y="105" width="230" height="56" rx="8" class="box-stroke"></rect>
-  <text x="1130" y="127" class="title-text">Postgres</text>
-  <text x="1130" y="144" class="sub-text">pooled · optional 2PC branch</text>
+  <rect x="1120" y="86" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="106" class="title-text">Postgres</text>
+  <text x="1130" y="122" class="sub-text">pooled · optional 2PC branch</text>
 
-  <rect x="1120" y="180" width="230" height="56" rx="8" class="box-stroke"></rect>
-  <text x="1130" y="202" class="title-text">MySQL / MariaDB</text>
-  <text x="1130" y="219" class="sub-text">pooled</text>
+  <rect x="1120" y="142" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="162" class="title-text">MySQL / MariaDB</text>
+  <text x="1130" y="178" class="sub-text">pooled</text>
 
-  <rect x="1120" y="255" width="230" height="56" rx="8" class="box-stroke"></rect>
-  <text x="1130" y="277" class="title-text">Snowflake</text>
-  <text x="1130" y="294" class="sub-text">pooled</text>
+  <rect x="1120" y="198" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="218" class="title-text">Snowflake</text>
+  <text x="1130" y="234" class="sub-text">pooled</text>
 
-  <rect x="1120" y="330" width="230" height="56" rx="8" class="box-stroke"></rect>
-  <text x="1130" y="352" class="title-text">Redshift</text>
-  <text x="1130" y="369" class="sub-text">pooled</text>
+  <rect x="1120" y="254" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="274" class="title-text">Redshift</text>
+  <text x="1130" y="290" class="sub-text">pooled</text>
 
-  <rect x="1120" y="405" width="230" height="56" rx="8" class="box-stroke"></rect>
-  <text x="1130" y="427" class="title-text">BigQuery</text>
-  <text x="1130" y="444" class="sub-text">pooled · per-query billed</text>
+  <rect x="1120" y="310" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="330" class="title-text">BigQuery</text>
+  <text x="1130" y="346" class="sub-text">pooled · per-query billed</text>
+
+  <rect x="1120" y="366" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="386" class="title-text">Any REST API</text>
+  <text x="1130" y="402" class="sub-text">Salesforce · HubSpot · ServiceNow · JSON</text>
+
+  <rect x="1120" y="422" width="230" height="48" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="442" class="title-text">Object storage</text>
+  <text x="1130" y="458" class="sub-text">S3 / MinIO / GCS · CSV · XML · Parquet</text>
 
   <!-- ============ FOOTER: cross-cutting capabilities ============ -->
-  <text x="20" y="494" class="footer-head">CROSS-CUTTING, EVERY FRONTEND / EVERY REQUEST</text>
+  <text x="20" y="500" class="footer-head">CROSS-CUTTING, EVERY FRONTEND / EVERY REQUEST</text>
 
-  <rect x="20" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="185" y="522" text-anchor="middle" class="chip-text-sm">SQL Firewall — allow/deny + injection heuristic</text>
+  <rect x="20" y="508" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="240" y="528" text-anchor="middle" class="chip-text-sm">SQL Firewall — allow/deny + injection heuristic</text>
 
-  <rect x="363" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="528" y="522" text-anchor="middle" class="chip-text-sm">NL2SQL — SELECT NL → LLM → SQL, confirm-before-DML</text>
+  <rect x="480" y="508" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="700" y="528" text-anchor="middle" class="chip-text-sm">NL2SQL — ask a question in plain English, confirm before it changes data</text>
 
-  <rect x="706" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="871" y="522" text-anchor="middle" class="chip-text-sm">Sharding — scatter-gather SELECT across shard group</text>
+  <rect x="940" y="508" width="440" height="32" rx="16" class="join-fill"></rect>
+  <text x="1160" y="528" text-anchor="middle" class="join-text">Cross-source joins — one query across databases, REST APIs, and object storage at once</text>
 
-  <rect x="1049" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="1214" y="522" text-anchor="middle" class="chip-text-sm">XA/2PC — N-way replication, Postgres + Oracle coordinated</text>
+  <rect x="20" y="548" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="240" y="568" text-anchor="middle" class="chip-text-sm">Sharding — scatter-gather SELECT across a shard group</text>
 
-  <rect x="20" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="185" y="562" text-anchor="middle" class="chip-text-sm">Failover — primary/standby, auto failback probe</text>
+  <rect x="480" y="548" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="700" y="568" text-anchor="middle" class="chip-text-sm">XA/2PC — coordinated N-way replication, Postgres + Oracle</text>
 
-  <rect x="363" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="528" y="562" text-anchor="middle" class="chip-text-sm">Statement caching — driver-level, per backend dialect</text>
+  <rect x="940" y="548" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="1160" y="568" text-anchor="middle" class="chip-text-sm">Failover — primary/standby, auto failback probe</text>
 
-  <rect x="706" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="871" y="562" text-anchor="middle" class="chip-text-sm">Observability — /metrics (Prometheus) + OTLP push</text>
+  <rect x="20" y="588" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="240" y="608" text-anchor="middle" class="chip-text-sm">Caching — frequent queries served without hitting the source again</text>
 
-  <rect x="1049" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
-  <text x="1214" y="562" text-anchor="middle" class="chip-text-sm">Editions — Free: 100 conn/2 backends · Commercial: unlimited</text>
+  <rect x="480" y="588" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="700" y="608" text-anchor="middle" class="chip-text-sm">Observability — /metrics (Prometheus) + OTLP push</text>
+
+  <rect x="940" y="588" width="440" height="32" rx="16" class="chip-fill"></rect>
+  <text x="1160" y="608" text-anchor="middle" class="chip-text-sm">Editions — Free: 100 conn/2 sources · Commercial: unlimited</text>
 </svg>
