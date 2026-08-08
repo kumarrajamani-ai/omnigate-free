@@ -6,18 +6,42 @@ OmniGate sits in front of your database and speaks Oracle, Postgres, and MySQL a
 
 ```mermaid
 flowchart LR
-    A["🔶 Oracle tools<br/>(sqlplus, ojdbc, apps)"] --> LB
-    B["🐘 Postgres tools<br/>(psql, JDBC, apps)"] --> LB
-    C["🐬 MySQL tools<br/>(mysql CLI, JDBC, apps)"] --> LB
-    LB{{"⚖️ Load balancer"}} --> G1(["⚡ OmniGate"])
-    LB --> G2(["⚡ OmniGate"])
-    G1 --> D[("Your database")]
+    subgraph CLIENTS["YOUR EXISTING TOOLS"]
+        direction TB
+        A["🔶 Oracle clients<br/>sqlplus · ojdbc · apps"]
+        B["🐘 Postgres clients<br/>psql · JDBC apps"]
+        C["🐬 MySQL clients<br/>mysql CLI · apps"]
+    end
+
+    LB{{"⚖️ Load balancer"}}
+
+    subgraph CLUSTER["OMNIGATE — ONE OR MORE INSTANCES"]
+        direction TB
+        G1(["⚡ OmniGate"])
+        G2(["⚡ OmniGate"])
+    end
+
+    D[("Your database")]
+
+    A --> LB
+    B --> LB
+    C --> LB
+    LB --> G1
+    LB --> G2
+    G1 --> D
     G2 --> D
+
+    classDef lb fill:#e67e3f,stroke:#c96530,color:#fff,font-weight:bold;
+    classDef gate fill:#2f7d72,stroke:#20544c,color:#fff;
+    classDef db fill:#3c4453,stroke:#2a303b,color:#fff;
+    class LB lb;
+    class G1,G2 gate;
+    class D db;
 ```
 
 Three different clients, three different SQL dialects, one database behind it. Nobody has to
-change their tools. The load balancer is only needed if you run more than one OmniGate instance
-for redundancy or scale — a single instance works just as well for smaller setups (that's exactly
+change their tools. The load balancer and multiple OmniGate instances are only needed for
+redundancy or scale — a single instance works just as well for smaller setups (that's exactly
 what `docker compose up` below gives you).
 
 ## Why
