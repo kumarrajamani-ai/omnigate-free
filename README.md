@@ -4,52 +4,21 @@
 
 OmniGate sits in front of your database and speaks Oracle, Postgres, and MySQL all at once. Point whatever client, ORM, or BI tool you already use at OmniGate instead of your database directly, and it just works — even if your actual database is a completely different kind.
 
-```mermaid
-flowchart LR
-    subgraph CLIENTS["YOUR EXISTING TOOLS"]
-        direction TB
-        A["🔶 Oracle clients<br/>sqlplus · ojdbc · apps"]
-        B["🐘 Postgres clients<br/>psql · JDBC apps"]
-        C["🐬 MySQL clients<br/>mysql CLI · apps"]
-    end
+<img src="docs/architecture.svg" alt="Oracle, Postgres, MySQL, native OmniGate, and MCP agent clients all connect through a load balancer to a cluster of OmniGate nodes, which pool out to Oracle, Postgres, MySQL, Snowflake, Redshift, and BigQuery — with SQL firewall, NL2SQL, sharding, replication, failover, caching, and observability applying across every request.">
 
-    LB{{"⚖️ Load balancer"}}
-
-    subgraph CLUSTER["OMNIGATE — ONE OR MORE INSTANCES"]
-        direction TB
-        G1(["⚡ OmniGate"])
-        G2(["⚡ OmniGate"])
-    end
-
-    D[("Your database")]
-
-    A --> LB
-    B --> LB
-    C --> LB
-    LB --> G1
-    LB --> G2
-    G1 --> D
-    G2 --> D
-
-    classDef lb fill:#e67e3f,stroke:#c96530,color:#fff,font-weight:bold;
-    classDef gate fill:#2f7d72,stroke:#20544c,color:#fff;
-    classDef db fill:#3c4453,stroke:#2a303b,color:#fff;
-    class LB lb;
-    class G1,G2 gate;
-    class D db;
-```
-
-Three different clients, three different SQL dialects, one database behind it. Nobody has to
-change their tools. The load balancer and multiple OmniGate instances are only needed for
-redundancy or scale — a single instance works just as well for smaller setups (that's exactly
-what `docker compose up` below gives you).
+Five different ways in — Oracle clients, Postgres clients, MySQL clients, apps using OmniGate's
+own native driver, and AI agents over MCP — all land on the same cluster and can reach any of
+your connected databases. Nobody has to change their tools.
 
 ## Why
 
-- **Use the client you already have.** Your team's existing Oracle scripts, Postgres ORMs, or MySQL BI dashboards keep working, unchanged.
-- **One gateway, any backend.** Swap or add backends behind OmniGate without touching a single client connection string.
+- **Use the client you already have.** Oracle scripts, Postgres ORMs, MySQL BI dashboards, or an AI agent talking MCP — all keep working unchanged.
+- **Any data source, one gateway.** Oracle, Postgres, MySQL, Snowflake, Redshift, BigQuery — connect what you have, add more later, live, no restart.
+- **Ask it questions in plain English.** NL2SQL turns a typed-out question into SQL and runs it — with a confirmation step before anything that changes data.
+- **Faster on the second ask.** Frequently-run queries are cached automatically, so repeat requests don't hit your database again.
 - **A built-in web console.** See what's connected, run a query, and — with the optional local AI assistant — get help fixing a broken query, right in your browser.
 - **Nothing to install for your team.** OmniGate is the only new thing; everyone's existing tools connect exactly as they normally would.
+- **Built to grow with you.** Run one instance for a small setup, or a load-balanced cluster with automatic failover for production — same product either way.
 
 ## Get started in under a minute
 

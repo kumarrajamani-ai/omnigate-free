@@ -1,0 +1,244 @@
+<svg viewBox="0 0 1400 600" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Five client types (Oracle, Postgres, MySQL wire-protocol apps, native OmniGate JDBC apps, and MCP agent clients) connect through a load balancer to a cluster of OmniGate nodes. Node 1 is shown in full detail: frontend listeners feed a five-stage statement pipeline (NL2SQL, Firewall, Router, Cache, QoS), which hands off to a backend executor and per-backend connection pools. Nodes 2 and 3 run the identical stack. All three nodes share cluster membership, a distributed cache, and QoS reconciliation through an embedded data grid. Each node pools independently out to six backend databases: Oracle, Postgres, MySQL/MariaDB, Snowflake, Redshift, and BigQuery, with Oracle and Postgres additionally reachable via a two-phase-commit branch. A footer strip lists cross-cutting capabilities: SQL firewall, NL2SQL, sharding, XA/2PC replication, failover, statement caching, observability, and free-versus-commercial edition caps.">
+  <defs>
+    <style>
+      :root {
+        --bg: #f7f5f0;
+        --panel: #ffffff;
+        --panel-2: #eef0ec;
+        --fg: #23261f;
+        --muted: #6b7066;
+        --line: #23261f;
+        --accent: #b5541f;
+        --accent-soft: #f1ded0;
+        --chip-fill: #f4f2ea;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #171a16;
+          --panel: #20241d;
+          --panel-2: #262b21;
+          --fg: #e8e6dc;
+          --muted: #9aa093;
+          --line: #cfd3c7;
+          --accent: #e08a4f;
+          --accent-soft: #3a2a1e;
+          --chip-fill: #2a2f24;
+        }
+      }
+      svg { background: var(--bg); }
+      .box-stroke { stroke: var(--line); stroke-width: 1.3; fill: var(--panel); }
+      .box-stroke-2 { stroke: var(--muted); stroke-width: 1; fill: var(--panel-2); }
+      .chip-fill { fill: var(--chip-fill); stroke: var(--line); stroke-width: 1; }
+      .dashed { stroke-dasharray: 5 4; }
+      .cluster-boundary { fill: none; stroke: var(--muted); stroke-width: 1.2; stroke-dasharray: 3 4; }
+      .title-text { font: 600 12.5px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--fg); }
+      .sub-text { font: 10.6px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--muted); }
+      .chip-text { font: 600 10.6px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--fg); }
+      .chip-text-sm { font: 9.6px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--muted); }
+      .arrow-label { font: 10px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--muted); }
+      .arrow-label-accent { font: 600 10px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--accent); }
+      .group-label { font: 600 11px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--muted); letter-spacing: 0.01em; }
+      .footer-head { font: 700 11px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; fill: var(--fg); }
+      .arrow-line { stroke: var(--fg); stroke-width: 1.2; fill: none; marker-end: url(#arrow); }
+      .arrow-line-accent { stroke: var(--accent); stroke-width: 1.4; fill: none; marker-end: url(#arrow-accent); }
+      .arrow-line-muted { stroke: var(--muted); stroke-width: 1; fill: none; marker-end: url(#arrow-muted); }
+      .lb-fill { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.6; }
+      .lb-text { fill: var(--accent); font: 700 12.5px -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+    </style>
+    <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 z" fill="var(--fg)"></path>
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 z" fill="var(--accent)"></path>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6.2" markerHeight="6.2" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"></path>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="600" fill="var(--bg)"></rect>
+
+  <!-- ============ CLIENTS COLUMN ============ -->
+  <text x="20" y="24" class="group-label">CLIENTS / DRIVERS / MCP</text>
+
+  <g>
+    <rect x="20" y="36" width="200" height="54" rx="8" class="box-stroke"></rect>
+    <text x="30" y="56" class="title-text">Oracle clients</text>
+    <text x="30" y="73" class="sub-text">ojdbc11 · sqlplus · python-oracledb</text>
+  </g>
+  <g>
+    <rect x="20" y="104" width="200" height="54" rx="8" class="box-stroke"></rect>
+    <text x="30" y="124" class="title-text">Postgres clients</text>
+    <text x="30" y="141" class="sub-text">psql · pgJDBC apps</text>
+  </g>
+  <g>
+    <rect x="20" y="172" width="200" height="54" rx="8" class="box-stroke"></rect>
+    <text x="30" y="192" class="title-text">MySQL clients</text>
+    <text x="30" y="209" class="sub-text">mysql CLI · pymysql apps</text>
+  </g>
+  <g>
+    <rect x="20" y="240" width="200" height="54" rx="8" class="box-stroke"></rect>
+    <text x="30" y="260" class="title-text">Native OmniGate driver apps</text>
+    <text x="30" y="277" class="sub-text">Type-3 JDBC over gRPC (OJP-style)</text>
+  </g>
+  <g>
+    <rect x="20" y="308" width="200" height="54" rx="8" class="box-stroke"></rect>
+    <text x="30" y="328" class="title-text">MCP clients</text>
+    <text x="30" y="345" class="sub-text">Claude Code/Desktop · hosted agents</text>
+  </g>
+
+  <path d="M220,63 C245,63 245,163 270,163" class="arrow-line"></path>
+  <text x="224" y="58" class="arrow-label">TNS/TTC :1521</text>
+
+  <path d="M220,131 C245,131 245,181 270,181" class="arrow-line"></path>
+  <text x="224" y="126" class="arrow-label">pgwire :5433</text>
+
+  <path d="M220,199 L270,199" class="arrow-line"></path>
+  <text x="224" y="194" class="arrow-label">mywire :3306</text>
+
+  <path d="M220,267 C245,267 245,217 270,217" class="arrow-line"></path>
+  <text x="224" y="262" class="arrow-label">gRPC :7070</text>
+
+  <path d="M220,335 C245,335 245,235 270,235" class="arrow-line"></path>
+  <text x="224" y="330" class="arrow-label">stdio / HTTP :8080/mcp</text>
+
+  <!-- ============ LOAD BALANCER ============ -->
+  <rect x="270" y="163" width="110" height="72" rx="9" class="lb-fill"></rect>
+  <text x="325" y="192" text-anchor="middle" class="lb-text">Load Balancer</text>
+  <text x="325" y="207" text-anchor="middle" class="sub-text">NLB / L4 or L7</text>
+  <text x="325" y="220" text-anchor="middle" class="sub-text">health-checked</text>
+
+  <path d="M380,180 C400,180 400,145 420,145" class="arrow-line-accent"></path>
+  <path d="M380,199 C400,199 400,307 420,307" class="arrow-line-accent"></path>
+  <path d="M380,218 C400,218 400,377 420,377" class="arrow-line-accent"></path>
+  <text x="386" y="150" class="arrow-label-accent">round-robin / least-conn</text>
+
+  <!-- ============ CLUSTER BOUNDARY ============ -->
+  <rect x="400" y="8" width="620" height="460" rx="12" class="cluster-boundary"></rect>
+  <text x="412" y="24" class="group-label">OMNIGATE CLUSTER — N NODES BEHIND THE LB</text>
+
+  <!-- ============ NODE 1 (detailed) ============ -->
+  <rect x="420" y="30" width="580" height="230" rx="10" class="box-stroke"></rect>
+  <text x="436" y="46" class="title-text">OmniGate Node 1 — full pipeline (representative)</text>
+
+  <rect x="436" y="58" width="102" height="26" rx="5" class="chip-fill"></rect>
+  <text x="487" y="75" text-anchor="middle" class="chip-text-sm">orawire :1521</text>
+  <rect x="546" y="58" width="102" height="26" rx="5" class="chip-fill"></rect>
+  <text x="597" y="75" text-anchor="middle" class="chip-text-sm">pgwire :5433</text>
+  <rect x="656" y="58" width="102" height="26" rx="5" class="chip-fill"></rect>
+  <text x="707" y="75" text-anchor="middle" class="chip-text-sm">mywire :3306</text>
+  <rect x="766" y="58" width="102" height="26" rx="5" class="chip-fill"></rect>
+  <text x="817" y="75" text-anchor="middle" class="chip-text-sm">grpc :7070</text>
+  <rect x="876" y="58" width="102" height="26" rx="5" class="chip-fill"></rect>
+  <text x="927" y="75" text-anchor="middle" class="chip-text-sm">mcp stdio / http</text>
+
+  <path d="M710,84 L710,104" class="arrow-line"></path>
+  <text x="716" y="98" class="arrow-label">Statement</text>
+
+  <rect x="436" y="104" width="84" height="24" rx="5" class="chip-fill"></rect>
+  <text x="478" y="120" text-anchor="middle" class="chip-text-sm">NL2SQL</text>
+  <rect x="528" y="104" width="84" height="24" rx="5" class="chip-fill"></rect>
+  <text x="570" y="120" text-anchor="middle" class="chip-text-sm">Firewall</text>
+  <rect x="620" y="104" width="84" height="24" rx="5" class="chip-fill"></rect>
+  <text x="662" y="120" text-anchor="middle" class="chip-text-sm">Router</text>
+  <rect x="712" y="104" width="84" height="24" rx="5" class="chip-fill"></rect>
+  <text x="754" y="120" text-anchor="middle" class="chip-text-sm">Cache</text>
+  <rect x="804" y="104" width="84" height="24" rx="5" class="chip-fill"></rect>
+  <text x="846" y="120" text-anchor="middle" class="chip-text-sm">Stats</text>
+  <rect x="896" y="104" width="84" height="24" rx="5" class="chip-fill"></rect>
+  <text x="938" y="120" text-anchor="middle" class="chip-text-sm">QoS</text>
+  <text x="436" y="99" class="sub-text" style="font-size:9.5px">ordered stages — left to right</text>
+
+  <path d="M710,128 L710,150" class="arrow-line"></path>
+  <text x="716" y="144" class="arrow-label">targetBackend resolved</text>
+
+  <rect x="436" y="150" width="544" height="28" rx="6" class="chip-fill"></rect>
+  <text x="708" y="169" text-anchor="middle" class="chip-text">Backend Executor — route · scatter-gather (shard SELECT) · XA 2PC</text>
+
+  <path d="M710,178 L710,198" class="arrow-line"></path>
+  <text x="716" y="193" class="arrow-label">borrow</text>
+
+  <rect x="436" y="198" width="544" height="28" rx="6" class="chip-fill"></rect>
+  <text x="708" y="217" text-anchor="middle" class="chip-text">Connection Pools — one per backend, shared across sessions</text>
+
+  <!-- ============ NODE 2 / NODE 3 (simplified) ============ -->
+  <rect x="420" y="280" width="580" height="54" rx="10" class="box-stroke-2"></rect>
+  <text x="710" y="311" text-anchor="middle" class="title-text">OmniGate Node 2 — identical listener + pipeline + pool stack</text>
+
+  <rect x="420" y="350" width="580" height="54" rx="10" class="box-stroke-2"></rect>
+  <text x="710" y="381" text-anchor="middle" class="title-text">OmniGate Node 3 — identical listener + pipeline + pool stack</text>
+
+  <!-- ============ SHARED CLUSTER DATA GRID ============ -->
+  <rect x="420" y="420" width="580" height="40" rx="8" class="chip-fill dashed"></rect>
+  <text x="710" y="437" text-anchor="middle" class="chip-text">Shared Cluster Data Grid</text>
+  <text x="710" y="452" text-anchor="middle" class="chip-text-sm">cluster membership · distributed cache · QoS reconciliation ~1s</text>
+
+  <!-- ============ FAN-IN / FAN-OUT BUS TO BACKENDS ============ -->
+  <path d="M980,212 L1050,212" class="arrow-line-muted"></path>
+  <path d="M1000,307 L1050,307" class="arrow-line-muted"></path>
+  <path d="M1000,377 L1050,377" class="arrow-line-muted"></path>
+  <line x1="1050" y1="58" x2="1050" y2="433" class="arrow-line-muted" marker-end="none"></line>
+  <text x="1055" y="240" class="arrow-label" transform="rotate(90 1055,240)">each node pools independently to every backend</text>
+
+  <path d="M1050,58 L1120,58" class="arrow-line-muted"></path>
+  <path d="M1050,133 L1120,133" class="arrow-line-muted"></path>
+  <path d="M1050,208 L1120,208" class="arrow-line-muted"></path>
+  <path d="M1050,283 L1120,283" class="arrow-line-muted"></path>
+  <path d="M1050,358 L1120,358" class="arrow-line-muted"></path>
+  <path d="M1050,433 L1120,433" class="arrow-line-muted"></path>
+
+  <!-- ============ BACKENDS / DATA SOURCES COLUMN ============ -->
+  <text x="1120" y="16" class="group-label">YOUR DATA SOURCES</text>
+
+  <rect x="1120" y="30" width="230" height="56" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="52" class="title-text">Oracle</text>
+  <text x="1130" y="69" class="sub-text">pooled · optional 2PC branch</text>
+
+  <rect x="1120" y="105" width="230" height="56" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="127" class="title-text">Postgres</text>
+  <text x="1130" y="144" class="sub-text">pooled · optional 2PC branch</text>
+
+  <rect x="1120" y="180" width="230" height="56" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="202" class="title-text">MySQL / MariaDB</text>
+  <text x="1130" y="219" class="sub-text">pooled</text>
+
+  <rect x="1120" y="255" width="230" height="56" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="277" class="title-text">Snowflake</text>
+  <text x="1130" y="294" class="sub-text">pooled</text>
+
+  <rect x="1120" y="330" width="230" height="56" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="352" class="title-text">Redshift</text>
+  <text x="1130" y="369" class="sub-text">pooled</text>
+
+  <rect x="1120" y="405" width="230" height="56" rx="8" class="box-stroke"></rect>
+  <text x="1130" y="427" class="title-text">BigQuery</text>
+  <text x="1130" y="444" class="sub-text">pooled · per-query billed</text>
+
+  <!-- ============ FOOTER: cross-cutting capabilities ============ -->
+  <text x="20" y="494" class="footer-head">CROSS-CUTTING, EVERY FRONTEND / EVERY REQUEST</text>
+
+  <rect x="20" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="185" y="522" text-anchor="middle" class="chip-text-sm">SQL Firewall — allow/deny + injection heuristic</text>
+
+  <rect x="363" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="528" y="522" text-anchor="middle" class="chip-text-sm">NL2SQL — SELECT NL → LLM → SQL, confirm-before-DML</text>
+
+  <rect x="706" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="871" y="522" text-anchor="middle" class="chip-text-sm">Sharding — scatter-gather SELECT across shard group</text>
+
+  <rect x="1049" y="502" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="1214" y="522" text-anchor="middle" class="chip-text-sm">XA/2PC — N-way replication, Postgres + Oracle coordinated</text>
+
+  <rect x="20" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="185" y="562" text-anchor="middle" class="chip-text-sm">Failover — primary/standby, auto failback probe</text>
+
+  <rect x="363" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="528" y="562" text-anchor="middle" class="chip-text-sm">Statement caching — driver-level, per backend dialect</text>
+
+  <rect x="706" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="871" y="562" text-anchor="middle" class="chip-text-sm">Observability — /metrics (Prometheus) + OTLP push</text>
+
+  <rect x="1049" y="542" width="331" height="32" rx="16" class="chip-fill"></rect>
+  <text x="1214" y="562" text-anchor="middle" class="chip-text-sm">Editions — Free: 100 conn/2 backends · Commercial: unlimited</text>
+</svg>
