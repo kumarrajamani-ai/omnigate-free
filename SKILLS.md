@@ -21,6 +21,11 @@ and starts a seeded Postgres backend (`docker/init-scott.sql` — the classic `s
 snippets below, live connection details, and a query box, so you don't need this file open at all
 once it's running.
 
+> **If `docker compose up` fails with `could not read from input file: Is a directory`** for
+> `init-scott.sql`, Docker Desktop doesn't have file-sharing access to wherever you cloned this
+> repo — this happens if you cloned into `/tmp` on macOS. Clone into your home directory (or
+> another folder under Docker Desktop → Settings → Resources → File sharing) instead.
+
 ## 2. Connect with any of three clients
 
 All three below hit the **same** OmniGate container, on three different ports, in three different
@@ -35,23 +40,33 @@ docker run --rm -it postgres psql "postgresql://scott:tiger@host.docker.internal
 SELECT * FROM scott.emp WHERE deptno = 10;
 ```
 
-**MySQL (`mysql` CLI) — port 3306**
+**MySQL (`mariadb` CLI) — port 3306**
 ```bash
-docker run --rm -it mariadb mysql -h host.docker.internal -P 3306 -u scott -ptiger postgres
+docker run --rm -it mariadb mariadb -h host.docker.internal -P 3306 -u scott -ptiger --skip-ssl postgres
 ```
 ```sql
 SELECT * FROM scott.emp WHERE deptno = 10;
 ```
+(The official `mariadb` image dropped the old `mysql` binary in favor of `mariadb` — same client,
+new name. `--skip-ssl` is needed too: the client defaults to requiring TLS, which OmniGate's
+`mywire` frontend doesn't currently negotiate.)
 
-**Oracle (`sqlplus`) — port 1521**
+**Oracle — port 1521**
 ```bash
-docker run --rm -it gvenzl/oracle-free sqlplus scott/tiger@host.docker.internal:1521/FREE
-```
-```sql
-SELECT * FROM emp WHERE deptno = 10;
+docker run --rm python:3-slim sh -c "pip -q install oracledb && python3 -c \"
+import oracledb
+conn = oracledb.connect(user='scott', password='tiger', dsn='host.docker.internal:1521/FREE')
+cur = conn.cursor()
+cur.execute('SELECT * FROM emp WHERE deptno = 10')
+for row in cur: print(row)
+\""
 ```
 (No real Oracle database is involved — OmniGate's `orawire` frontend speaks real Oracle Net
-directly and translates to the bundled Postgres backend underneath. That's the whole point.)
+directly and translates to the bundled Postgres backend underneath. That's the whole point.
+**Known gap**: the classic `sqlplus`/Oracle Instant Client currently fails against `orawire` with
+`ORA-12592: TNS:bad packet` — a real, tracked protocol-negotiation difference between it and the
+`python-oracledb`/`ojdbc11` clients above, which do work. Use one of those two until that's fixed;
+see the main repo's `ARCHITECTURE.md` for the diagnosis.)
 
 On Linux, replace `host.docker.internal` with `172.17.0.1` (or run with `--network host`).
 Already running natively rather than in Docker? Just use `localhost` instead.
