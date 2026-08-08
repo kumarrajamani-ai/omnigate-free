@@ -6,13 +6,19 @@ OmniGate sits in front of your database and speaks Oracle, Postgres, and MySQL a
 
 ```mermaid
 flowchart LR
-    A["🔶 Oracle tools<br/>(sqlplus, ojdbc, apps)"] --> G
-    B["🐘 Postgres tools<br/>(psql, JDBC, apps)"] --> G
-    C["🐬 MySQL tools<br/>(mysql CLI, JDBC, apps)"] --> G
-    G(["⚡ OmniGate"]) --> D[("Your database")]
+    A["🔶 Oracle tools<br/>(sqlplus, ojdbc, apps)"] --> LB
+    B["🐘 Postgres tools<br/>(psql, JDBC, apps)"] --> LB
+    C["🐬 MySQL tools<br/>(mysql CLI, JDBC, apps)"] --> LB
+    LB{{"⚖️ Load balancer"}} --> G1(["⚡ OmniGate"])
+    LB --> G2(["⚡ OmniGate"])
+    G1 --> D[("Your database")]
+    G2 --> D
 ```
 
-Three different clients, three different SQL dialects, one database behind it. Nobody has to change their tools.
+Three different clients, three different SQL dialects, one database behind it. Nobody has to
+change their tools. The load balancer is only needed if you run more than one OmniGate instance
+for redundancy or scale — a single instance works just as well for smaller setups (that's exactly
+what `docker compose up` below gives you).
 
 ## Why
 
