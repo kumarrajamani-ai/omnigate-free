@@ -1,18 +1,27 @@
-# omnigate-free
+# OmniGate — Free Edition
 
-The one-command way to try **OmniGate**, the free edition — a multi-protocol database gateway
-that speaks real Oracle Net, real Postgres wire protocol, and real MySQL wire protocol itself.
+**Connect your existing Oracle, Postgres, or MySQL tools to any database — no driver changes, no app rewrites.**
 
-This repo is deliberately just the deployment package (a `docker-compose.yml`, a `.env`, and
-docs) — not the source code. For the full source, architecture docs, and the commercial
-(unrestricted) edition, see **[kumarrajamani-ai/Omnigate](https://github.com/kumarrajamani-ai/Omnigate)**.
+OmniGate sits in front of your database and speaks Oracle, Postgres, and MySQL all at once. Point whatever client, ORM, or BI tool you already use at OmniGate instead of your database directly, and it just works — even if your actual database is a completely different kind.
 
-**Free edition limits**: 100 concurrent connections, 2 named backends. Everything else — every
-protocol, every feature — is the same code as the commercial edition; nothing is feature-gated,
-only scale-gated. See the main repo's `ARCHITECTURE.md` §9 for exactly how that cap is enforced
-(baked into the image itself, not just an env var default, so it can't be casually overridden).
+```mermaid
+flowchart LR
+    A["🔶 Oracle tools<br/>(sqlplus, ojdbc, apps)"] --> G
+    B["🐘 Postgres tools<br/>(psql, JDBC, apps)"] --> G
+    C["🐬 MySQL tools<br/>(mysql CLI, JDBC, apps)"] --> G
+    G(["⚡ OmniGate"]) --> D[("Your database")]
+```
 
-## Quick start
+Three different clients, three different SQL dialects, one database behind it. Nobody has to change their tools.
+
+## Why
+
+- **Use the client you already have.** Your team's existing Oracle scripts, Postgres ORMs, or MySQL BI dashboards keep working, unchanged.
+- **One gateway, any backend.** Swap or add backends behind OmniGate without touching a single client connection string.
+- **A built-in web console.** See what's connected, run a query, and — with the optional local AI assistant — get help fixing a broken query, right in your browser.
+- **Nothing to install for your team.** OmniGate is the only new thing; everyone's existing tools connect exactly as they normally would.
+
+## Get started in under a minute
 
 ```bash
 git clone https://github.com/kumarrajamani-ai/omnigate-free.git
@@ -20,15 +29,11 @@ cd omnigate-free
 docker compose up
 ```
 
-Then open **http://localhost:8080/console** — it opens straight to a step-by-step "Get Started"
-guide. Full walkthrough (three different SQL clients, one bundled backend, plus how to turn on
-the optional local AI assistant) is in **[SKILLS.md](SKILLS.md)**.
+Then open **http://localhost:8080/console** — it walks you through trying it with your own client, or a query box right in the browser. Full walkthrough: **[SKILLS.md](SKILLS.md)**.
 
-## What's in here
+## This is the free edition
 
-- `docker-compose.yml` — pulls the published `ghcr.io/kumarrajamani-ai/omnigate-free:latest`
-  image and a seeded Postgres backend. Doesn't build from source.
-- `.env` — demo defaults (safe to commit — not real secrets). Change before exposing this beyond
-  your own machine.
-- `docker/init-scott.sql` — seeds the classic `scott.emp`/`scott.dept` demo tables.
-- `SKILLS.md` — the actual getting-started walkthrough.
+Free to use, no signup, no time limit — capped at 100 concurrent connections and 2 connected
+databases. Need more? The commercial edition removes both caps; see
+**[the main OmniGate project](https://github.com/kumarrajamani-ai/Omnigate)** for details, full
+documentation, and the source code.
