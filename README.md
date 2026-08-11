@@ -4,7 +4,7 @@
 
 OmniGate sits in front of your database and speaks Oracle, Postgres, and MySQL all at once. Point whatever client, ORM, or BI tool you already use at OmniGate instead of your database directly, and it just works — even if your actual database is a completely different kind.
 
-<img src="docs/architecture.svg" alt="Oracle, Postgres, MySQL, native OmniGate, and MCP agent clients all connect through a load balancer to a cluster of OmniGate nodes, which pool out to Oracle, Postgres, MySQL, Snowflake, Redshift, BigQuery, any REST API, and S3-compatible object storage (CSV/XML/Parquet) — with SQL firewall, NL2SQL, cross-source joins, sharding, replication, failover, caching, and observability applying across every request.">
+<img src="docs/architecture2.png" alt="Oracle, Postgres, MySQL, native OmniGate, and MCP agent clients all connect through a load balancer to a cluster of OmniGate nodes, which pool out to Oracle, Postgres, MySQL, Snowflake, Redshift, BigQuery, any REST API, and S3-compatible object storage (CSV/XML/Parquet) — with SQL firewall, NL2SQL, cross-source joins, sharding, replication, failover, caching, and observability applying across every request.">
 
 Five different ways in — Oracle clients, Postgres clients, MySQL clients, apps using OmniGate's
 own native driver, and AI agents over MCP — all land on the same cluster and can reach any of
