@@ -30,7 +30,12 @@ cd omnigate-free
 docker compose up
 ```
 
-Then open **http://localhost:8080/console** — it walks you through trying it with your own client, or a query box right in the browser. Full walkthrough: **[SKILLS.md](SKILLS.md)**.
+Then open **http://localhost:8080/console** — the real, live console this starts:
+
+<img src="docs/screenshot-console.png" alt="OmniGate's built-in Get Started console — real copy-paste connection snippets for Postgres, MySQL (mariadb client), and Oracle (python-oracledb) clients, a live SQL query box against the seeded scott.emp/scott.dept demo data, and an assistant panel on the right.">
+
+
+Full walkthrough (all three client snippets, plus the query box): **[SKILLS.md](SKILLS.md)**.
 
 ## This is the free edition
 
