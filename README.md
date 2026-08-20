@@ -19,6 +19,7 @@ SaaS platforms, and files sitting in S3-compatible object storage. Nobody has to
 - [Data sources](#data-sources)
 - [Groups — organizing backends, users, and models](#groups--organizing-backends-users-and-models)
 - [Natural-language questions (NL2SQL)](#natural-language-questions-nl2sql)
+- [AI Extract — PDF field extraction, callable from SQL](#ai-extract--pdf-field-extraction-callable-from-sql)
 - [Config storage](#config-storage)
 - [Authentication](#authentication)
 - [Configuration reference](#configuration-reference)
@@ -112,6 +113,54 @@ data leaves the machine) are supported out of the box; point **LLM Settings** at
 already-running `llama-server` and save — it applies to the very next question, no restart. A
 hosted model (Anthropic, or anything OpenAI-compatible) works the same way, just with an API key
 instead of a local port.
+
+## AI Extract — PDF field extraction, callable from SQL
+
+Pulling structured fields out of PDFs is harder than it looks: an LLM trained on next-token
+prediction tends to quietly "autocorrect" a value — reformat a date, round a number, fix a
+perceived typo in a name — with no confidence score in its own output to reveal that it happened.
+`PDF_EXTRACT(source, fields)` addresses this directly: after the model proposes a value, an
+independent, mechanical check confirms that value actually appears (normalized only for
+whitespace/currency-symbol/case) in the real text pulled from the document. A value that fails
+this check is still returned, never dropped, but comes back marked `grounded: false` instead of
+looking as trustworthy as one proven to really be on the page.
+
+It's a real Calcite SQL table function, so it's usable anywhere a federated query runs — join a
+scanned or born-digital PDF straight into a query against your own tables:
+
+```sql
+SELECT
+    po.expected_amount,
+    scanned.value AS scanned_amount,
+    scanned.grounded
+FROM purchase_orders po
+JOIN TABLE(
+    PDF_EXTRACT(
+        'https://your-bucket.s3.amazonaws.com/inbound/po-77219-scan.pdf?X-Amz-...',
+        'po_number,supplier_name,amount_due'
+    )
+) AS scanned
+    ON scanned.field = 'po_number' AND scanned.value = po.po_number
+WHERE po.po_number = 'PO-77219';
+
+-- EXPECTED_AMOUNT | SCANNED_AMOUNT | GROUNDED
+-- 3902.15         | 3902.15        | true
+```
+
+**Scanned/photographed PDFs work too.** If a PDF has no embedded text layer at all, `PDF_EXTRACT`
+falls back to OCR (a real, locally installed Tesseract binary — opt in by setting
+`OMNIGATE_OCR_TESSERACT_PATH`) before running the same grounding check against the OCR'd text.
+Nothing about the SQL changes; the `FIELD | VALUE | GROUNDED` shape is identical either way.
+
+**From natural language**, the same function is reachable through NL2SQL once it's mentioned in a
+namespace's question bank or ontology — for example:
+
+> "What's the amount due on the scanned PO at `s3://your-bucket/inbound/po-77219-scan.pdf`, and
+> does it match what we expected in purchase_orders for PO-77219?"
+
+resolves to the same join shown above. It's also callable directly over HTTP —
+`POST /api/extract/pdf-fields` with `{"pdfBase64": "..."}` or `{"url": "..."}` and
+`{"fields": [...]}` — for scripting or another feature to call without needing a federated query.
 
 ## Config storage
 
