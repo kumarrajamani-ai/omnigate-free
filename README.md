@@ -58,6 +58,12 @@ Everything below is a real, working page in this image — not a mockup. Each on
 config, applied immediately, no restart, persisted so it survives a container restart (see
 [Config storage](#config-storage)).
 
+<img src="docs/screenshot-admin-sources.png" alt="OmniGate's Data Sources admin page — a labeled card per data source (Name, Type, User, Password, Connection string, Group), a type dropdown covering 21 source kinds, and Discover schemas / remove actions.">
+
+*(The Data Sources page — add a source, pick its type from the dropdown for a real sample
+connection string, test it live with "Discover schemas," and assign it to a group, all without
+leaving the page.)*
+
 | Page | What it does |
 |---|---|
 | **Data sources** | Add/edit backends. A type dropdown (Postgres, Oracle, MySQL, SQL Server, Snowflake, Redshift, BigQuery, Databricks, Aurora, S3, S3-compatible, Azure Blob, Salesforce, HubSpot, ServiceNow, YouTube, GitHub, Microsoft Graph/SharePoint, generic REST/JDBC) fills in a real sample connection string per source. "Discover schemas" tests a connection live before you save it. |
